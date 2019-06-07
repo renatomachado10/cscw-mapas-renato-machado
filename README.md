@@ -1,1 +1,1 @@
-# cscw-mapas-renato-machado
+# cscw-2019-mapas-template

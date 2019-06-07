@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" type="text/css" href="res/style.css">
+    </head>
+<body>
+<div id='map'></div>
+<div id='features'>
+    <section id='welcome' class='active'>
+        <h3>Olá CSCW!!!</h3>
+		<h3>Eu sou Renato Machado!</h3>
+		<h3>Matrícula: 0050012586</h3>
+        <p><img src="res/avatar.jpg" height="300"><br/>Bem-vindo aos meus mapas. <br><br> Conheça um lugar que gostei de conhecer e aprecie outras 2 sugestões de amigos.</p>
+    </section>
+    <section id='Meu1' class='active'>
+        <p class="timepoint">Renato Machado</p>
+        <h3>One World Observatory</h3>
+        <p><img src="res/oneworld.jpg" width="350"><br/><br>Os elevadores SkyPod sobem 102 andares em 47 segundos. <br><br> Este passeio surpreendente revela a transformação da cidade de Nova York de terras instáveis para a notável floresta de arranha-céus de hoje. <br><br> One World Trade Center também é conhecido como a Freedom Tower.</p>
+    </section>
+     <section id='Amigo1' class='active'>
+        <p class="timepoint">Reginaldo Gaio</p>
+        <h3>Times Square</h3>
+        <p><img src="res/timessquare.jpg" width="350"><br/><br>Times Square é a denominação da área formada na confluência e cruzamento de duas grandes avenidas da cidade de Nova Iorque, Estados Unidos; podendo ser definida como uma grande praça ou largo, composta por vários cruzamentos e esquinas.</p>
+    </section>
+    <section id='Amigo2' class='active'>
+        <p class="timepoint">Caio Barra</p>
+        <h3>Radio City</h3>
+        <p><img src="res/radiocity.jpg" width="350"><br/><br>O Radio City Music Hall é uma casa de espectáculos localizado no Rockefeller Center de Nova Iorque. <br><br> Conhecido como o Local de Espectáculos da Nação, o Radio City Music Hall abriu ao público a 27 de Dezembro de 1932.</p>
+    </section>
+</div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleC1zYWxnYWRvIiwiYSI6ImNqbnc2OHdreTAwMXcza3B0bzdvOGZhZWEifQ.GAqMlYzetVlP7lb8eW7zUw';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v10',
+        bearing: 0,
+        center: [2.294492,48.858589],
+        zoom: 17,
+        speed: 0.8,
+        pitch: 0
+});
+var chapters = {
+    'welcome': {
+        bearing: 0,
+        center: [-43.125863,-22.907818],
+        zoom: 17,
+        speed: 0.8,
+        pitch: 0
+    },
+    'Meu1': { //Meu1
+        bearing: 0,
+        center: [-74.013380, 40.713404],
+        zoom: 17,
+        speed: 0.8,
+        pitch: 0
+    },
+    'Amigo1': { //Amigo 1
+        bearing: 0,
+        center: [-73.985532, 40.758032],
+        zoom: 17,
+        speed: 0.8,
+        pitch: 0
+    },
+    'Amigo2': { //Amigo 2
+        bearing: 0,
+        center: [-73.979977, 40.759981],
+        zoom: 17,
+        speed: 0.8,
+        pitch: 0
+    },
+	
+    'Ending': {
+        bearing: 0,
+        center: [-43.125863,-22.907818],
+        zoom: 17,
+        speed: 0.8,
+        pitch: 0
+    },
+};
+// On every scroll event, check which element is on screen
+window.onscroll = function() {
+    var chapterNames = Object.keys(chapters);
+    for (var i = 0; i < chapterNames.length; i++) {
+        var chapterName = chapterNames[i];
+        if (isElementOnScreen(chapterName)) {
+            setActiveChapter(chapterName);
+            break;
+        }
+    }
+};
+var activeChapterName = '';
+function setActiveChapter(chapterName) {
+    if (chapterName === activeChapterName) return;
+    map.flyTo(chapters[chapterName]);
+    document.getElementById(chapterName).setAttribute('class', 'active');
+    document.getElementById(activeChapterName).setAttribute('class', '');
+    activeChapterName = chapterName;
+}
+function isElementOnScreen(id) {
+    var element = document.getElementById(id);
+    var bounds = element.getBoundingClientRect();
+    return bounds.top < window.innerHeight && bounds.bottom > 0;
+}
+</script>
+</body>
+</html>
